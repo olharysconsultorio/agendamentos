@@ -3,101 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olharys - Agendamento</title>
+    <title>Olharys - Clínica de Olhos</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { --primary: #00d2d3; --dark: #0c1c2c; --white: #ffffff; }
+        :root { --primary: #00d2d3; --dark: #0c1c2c; --white: #ffffff; --light-bg: #f8f9fa; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Montserrat', sans-serif; color: var(--dark); }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; color: var(--dark); line-height: 1.6; }
         
-        /* Header & Hero */
-        header { position: fixed; width: 100%; padding: 20px 8%; background: rgba(12, 28, 44, 0.95); z-index: 1000; color: white; display: flex; justify-content: space-between; }
-        .hero { height: 100vh; background: linear-gradient(rgba(12,28,44,0.8), rgba(12,28,44,0.4)), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600'); background-size: cover; display: flex; align-items: center; padding: 0 8%; color: white; }
-        .btn-main { padding: 16px 45px; background: var(--primary); border: none; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; }
-        
-        /* Seções */
+        /* --- HEADER & NAV --- */
+        header { position: fixed; width: 100%; padding: 15px 8%; background: rgba(12, 28, 44, 0.98); z-index: 1000; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo { font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .nav-menu { display: flex; gap: 20px; }
+        .nav-menu a { color: white; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .nav-menu a:hover { color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        /* Foto de fundo representando o seguimento (Oftalmologia) */
+        .hero { 
+            height: 100vh; 
+            background: linear-gradient(rgba(12,28,44,0.85), rgba(12,28,44,0.5)), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=80'); 
+            background-size: cover; background-position: center; 
+            display: flex; align-items: center; padding: 0 8%; color: white; margin-top: 0;
+        }
+        .hero-content { max-width: 600px; animation: fadeIn 1.5s ease; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; }
+        .btn-main { padding: 16px 45px; background: var(--primary); border: none; border-radius: 50px; font-weight: 700; cursor: pointer; margin-top: 20px; font-size: 1rem; color: var(--dark); transition: 0.3s; }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,210,211,0.3); }
+
+        /* --- SEÇÕES GERAIS --- */
         section { padding: 80px 8%; }
-        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
+        .section-title p { color: #666; max-width: 600px; margin: 0 auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { padding: 30px; border: 1px solid #eee; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        /* --- SERVIÇOS --- */
+        .service-card { padding: 40px; background: white; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s; border-bottom: 4px solid var(--primary); }
+        .service-card:hover { transform: translateY(-5px); }
+        .icon-box { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+        .price-tag { display: block; margin-top: 15px; font-weight: 700; color: var(--dark); font-size: 1.2rem; }
+        .price-tag small { font-weight: 400; font-size: 0.9rem; color: #777; }
+
+        /* --- PROFISSIONAIS --- */
+        #profissionais { background-color: var(--light-bg); }
+        .team-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .team-img { height: 250px; background-color: #ddd; background-size: cover; background-position: center; }
+        .team-info { padding: 25px; }
+        .team-role { color: var(--primary); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .team-bio { font-size: 0.95rem; color: #555; margin-top: 10px; }
+
+        /* --- AVALIAÇÕES --- */
+        .review-card { background: var(--light-bg); padding: 30px; border-radius: 15px; font-style: italic; position: relative; }
+        .review-card::before { content: "\201C"; font-size: 4rem; position: absolute; top: -10px; left: 20px; color: var(--primary); opacity: 0.3; }
+        .stars { color: #f1c40f; margin-bottom: 10px; }
+
+        /* --- FALE CONOSCO (FOOTER) --- */
+        footer { background: var(--dark); color: white; padding: 60px 8%; text-align: center; }
+        .contact-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 30px; }
+        .btn-social { display: flex; align-items: center; gap: 10px; padding: 12px 25px; border-radius: 50px; text-decoration: none; color: white; font-weight: 600; transition: 0.3s; }
+        .btn-social:hover { transform: scale(1.05); }
+        .bg-whatsapp { background: #25D366; }
+        .bg-email { background: #EA4335; }
+        .bg-instagram { background: #C13584; }
+        .bg-facebook { background: #1877F2; }
+
+        /* --- MODAL --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-box { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; animation: popIn 0.3s ease; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #888; transition: 0.2s;}
+        .close-modal:hover { color: var(--dark); }
         
-        /* Modal */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; }
-        
-        /* Botões de Seleção */
-        .prof-btn { display: flex; justify-content: space-between; padding: 20px; border: 2px solid #eee; border-radius: 10px; cursor: pointer; background: white; width: 100%; margin-bottom: 10px; text-align: left; }
-        .prof-btn:hover { border-color: var(--primary); }
+        /* Botões de Seleção no Modal */
+        .prof-btn { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 2px solid #eee; border-radius: 12px; cursor: pointer; background: white; width: 100%; margin-bottom: 15px; text-align: left; transition: 0.3s; }
+        .prof-btn:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
         /* Form */
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
         .btn-submit { width: 100%; padding: 15px; background: var(--dark); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-submit:hover { background: var(--primary); color: var(--dark); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .nav-menu { display: none; } /* Simplificado para mobile */
+            header { justify-content: center; }
+            .hero { text-align: center; }
+        }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+        @keyframes popIn { from {transform: scale(0.95); opacity: 0;} to {transform: scale(1); opacity: 1;} }
     </style>
 </head>
 <body>
 
     <header>
-        <div style="font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--primary);">Olharys</div>
+        <div class="logo"><i class="fas fa-eye"></i> Olharys</div>
+        <nav class="nav-menu">
+            <a href="#inicio">Início</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#profissionais">Profissionais</a>
+            <a href="#avaliacoes">Depoimentos</a>
+            <a href="#contato">Contato</a>
+        </nav>
     </header>
 
-    <section class="hero">
-        <div>
-            <h1 style="font-family: 'Playfair Display'; font-size: 3.5rem;">Cuide da sua visão.</h1>
-            <p>Agende com especialistas de forma rápida.</p>
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1 style="font-family: 'Playfair Display'; font-size: 3.5rem;">Visão Nítida, Vida Plena.</h1>
+            <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px;">
+                Cuidamos da saúde dos seus olhos com tecnologia de ponta e profissionais experientes. Agende sua consulta em segundos.
+            </p>
             <button class="btn-main" onclick="abrirModal()">AGENDAR CONSULTA</button>
         </div>
     </section>
 
+    <section id="servicos">
+        <div class="section-title">
+            <h2>Nossos Serviços</h2>
+            <p>Atendimento especializado para todas as suas necessidades visuais.</p>
+        </div>
+        <div class="grid">
+            <div class="service-card">
+                <div class="icon-box"><i class="fas fa-glasses"></i></div>
+                <h3>Optometria</h3>
+                <p>Exame de vista focado na medição da acuidade visual e prescrição de óculos e lentes de contato.</p>
+                <span class="price-tag"><small>A partir de</small> R$ 120,00</span>
+            </div>
+            <div class="service-card">
+                <div class="icon-box"><i class="fas fa-user-md"></i></div>
+                <h3>Oftalmologia</h3>
+                <p>Consulta médica completa para diagnóstico e tratamento de doenças oculares como glaucoma e catarata.</p>
+                <span class="price-tag"><small>A partir de</small> R$ 150,00</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="profissionais">
+        <div class="section-title">
+            <h2>Conheça Nossa Equipe</h2>
+            <p>Especialistas dedicados ao seu bem-estar.</p>
+        </div>
+        <div class="grid">
+            <div class="team-card">
+                <div class="team-img" style="background-image: url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="team-info">
+                    <h3>Guilherme</h3>
+                    <div class="team-role">Optometrista</div>
+                    <p class="team-bio">
+                        Especialista em saúde visual primária. Guilherme dedica-se a proporcionar a melhor acuidade visual através de exames de refração precisos e adaptação de lentes de contato. Seu foco é garantir conforto visual e qualidade de vida para seus pacientes.
+                    </p>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-img" style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="team-info">
+                    <h3>Dr. Eduardo Sodré</h3>
+                    <div class="team-role">Oftalmologista</div>
+                    <p class="team-bio">
+                        Médico cirurgião com vasta experiência no diagnóstico e tratamento de patologias oculares complexas. Dr. Eduardo é referência em cirurgias de catarata, tratamento de glaucoma e retina. Seu atendimento une tecnologia de ponta e humanização.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="avaliacoes">
+        <div class="section-title">
+            <h2>O que dizem nossos pacientes</h2>
+        </div>
+        <div class="grid">
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"O atendimento do Guilherme foi excelente. Acertei meu grau de primeira e os óculos ficaram perfeitos. Recomendo muito!"</p>
+                <br><strong>- Mariana Costa</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Dr. Eduardo é muito atencioso e explicou tudo sobre meu tratamento. Me senti muito segura. Clínica impecável e equipamentos modernos."</p>
+                <br><strong>- Ricardo Alves</strong>
+            </div>
+            <div class="review-card">
+                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p>"Agendamento super rápido pelo site. Recebi a confirmação no WhatsApp na hora. Facilidade e competência nota 10."</p>
+                <br><strong>- Fernanda Lima</strong>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contato">
+        <div style="font-family: 'Playfair Display'; font-size: 2rem; color: var(--primary); margin-bottom: 10px;">Olharys</div>
+        <p>Estamos prontos para atender você. Entre em contato pelos canais abaixo:</p>
+        
+        <div class="contact-buttons">
+            <a href="mailto:contato@olharys.com" class="btn-social bg-email">
+                <i class="fas fa-envelope"></i> E-mail
+            </a>
+            <a href="https://wa.me/5541996509734" target="_blank" class="btn-social bg-whatsapp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="#" class="btn-social bg-instagram">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+            <a href="#" class="btn-social bg-facebook">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </a>
+        </div>
+        <br><br>
+        <small>© 2026 Olharys Clínica de Olhos. Todos os direitos reservados.</small>
+    </footer>
+
     <div class="modal-overlay" id="modalAgendamento">
         <div class="modal-box">
-            <span style="position:absolute; top:15px; right:20px; font-size:28px; cursor:pointer;" onclick="fecharModal()">&times;</span>
+            <span class="close-modal" onclick="fecharModal()">&times;</span>
             
             <div id="selectionScreen">
-                <h2 style="text-align:center; margin-bottom:20px;">Escolha o Profissional</h2>
+                <h2 style="text-align:center; margin-bottom:10px; color:var(--dark);">Agendar Consulta</h2>
+                <p style="text-align:center; color:#666; margin-bottom:20px;">Escolha o tipo de atendimento:</p>
                 
-                <button class="prof-btn" onclick="escolherProfissional('optometrista', 'Guilherme (Optometrista)')">
-                    <div><b>Optometrista</b><br><small>Exame de vista</small></div>
-                    <div style="color:var(--primary); font-weight:bold;">R$ 120,00</div>
-                </button>
+                <div class="prof-btn" onclick="escolherProfissional('optometrista', 'Guilherme (Optometrista)')">
+                    <div>
+                        <h4 style="margin-bottom:5px;">Optometrista</h4>
+                        <small style="color:#666;">Exame de vista (Guilherme)</small>
+                    </div>
+                    <div style="color:var(--primary); font-weight:bold; font-size:1.1rem;">R$ 120,00</div>
+                </div>
 
-                <button class="prof-btn" onclick="escolherProfissional('oftalmologista', 'Dr. Eduardo (Oftalmologista)')">
-                    <div><b>Oftalmologista</b><br><small>Saúde ocular</small></div>
-                    <div style="color:var(--primary); font-weight:bold;">R$ 150,00</div>
-                </button>
+                <div class="prof-btn" onclick="escolherProfissional('oftalmologista', 'Dr. Eduardo (Oftalmologista)')">
+                    <div>
+                        <h4 style="margin-bottom:5px;">Oftalmologista</h4>
+                        <small style="color:#666;">Consulta Médica (Dr. Eduardo)</small>
+                    </div>
+                    <div style="color:var(--primary); font-weight:bold; font-size:1.1rem;">R$ 150,00</div>
+                </div>
             </div>
 
             <div id="formScreen" style="display:none;">
-                <button onclick="voltar()" style="background:none; border:none; cursor:pointer;">← Voltar</button>
-                <h3 id="tituloForm" style="text-align:center; color:var(--primary); margin-bottom:15px;"></h3>
+                <button onclick="voltar()" style="background:none; border:none; cursor:pointer; color:#666; margin-bottom:10px; display:flex; align-items:center; gap:5px;"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <h3 id="tituloForm" style="text-align:center; color:var(--primary); margin-bottom:20px;"></h3>
                 
                 <form id="formAgendamento">
                     <input type="text" id="nome" placeholder="Nome Completo" required>
-                    <input type="tel" id="telefone" placeholder="Telefone" required>
+                    <input type="tel" id="telefone" placeholder="Telefone / WhatsApp" required>
                     <input type="text" id="cidade" placeholder="Cidade" required>
-                    <label>Horários Disponíveis:</label>
+                    
+                    <label style="font-weight:600; font-size:0.9rem; margin-bottom:5px; display:block;">Horários Disponíveis:</label>
                     <select id="slotDisponivel" required><option>Carregando...</option></select>
-                    <button type="submit" class="btn-submit" id="btnEnviar">CONFIRMAR</button>
+                    
+                    <button type="submit" class="btn-submit" id="btnEnviar">CONFIRMAR AGENDAMENTO</button>
                 </form>
-                <div id="mensagem" style="text-align:center; margin-top:10px; font-weight:bold;"></div>
+                <div id="mensagem" style="text-align:center; margin-top:15px; font-weight:bold;"></div>
             </div>
         </div>
     </div>
 
     <script>
-        const URL = "https://script.google.com/macros/s/AKfycbw5u1fbH0wNTmg9VhnaEC59OAN0pFG8l3wNQM_MAhRo12AI2JGdUshKbL7hxx3sz-Yn/exec"; // <--- COLE AQUI
-        const ZAP = "5544991837620";
+        // ==========================================
+        // COLE SUA URL DO GOOGLE APPS SCRIPT AQUI !!
+        // ==========================================
+        const URL = "SUA_URL_DO_APPS_SCRIPT_AQUI"; 
+        
+        const ZAP = "5541996509734";
         let profissionalAtual = ""; 
         let horariosCache = [];
 
         function abrirModal() {
             document.getElementById('modalAgendamento').style.display = 'flex';
-            voltar();
-            fetch(URL).then(r => r.json()).then(d => horariosCache = d); // Carrega agenda
+            voltar(); // Reseta para tela de seleção
+            // Busca horários no servidor ao abrir o modal
+            fetch(URL).then(r => r.json()).then(d => horariosCache = d); 
         }
+        
         function fecharModal() { document.getElementById('modalAgendamento').style.display = 'none'; }
         
+        // Fecha ao clicar fora do modal
+        window.onclick = function(e) {
+            if(e.target == document.getElementById('modalAgendamento')) fecharModal();
+        }
+
         function escolherProfissional(tipo, nome) {
             profissionalAtual = tipo;
             document.getElementById('selectionScreen').style.display = 'none';
@@ -107,18 +290,24 @@
             const sel = document.getElementById("slotDisponivel");
             sel.innerHTML = '<option value="">Selecione...</option>';
             
+            // Filtra os horários baseados no tipo escolhido (optometrista ou oftalmologista)
             const filtrados = horariosCache.filter(h => h.tipo === tipo);
-            if(filtrados.length === 0) sel.innerHTML = '<option>Sem horários</option>';
-            else filtrados.forEach(i => {
-                let opt = document.createElement("option");
-                opt.value = i.id; opt.text = i.texto;
-                sel.appendChild(opt);
-            });
+            
+            if(filtrados.length === 0) {
+                sel.innerHTML = '<option>Sem horários disponíveis</option>';
+            } else {
+                filtrados.forEach(i => {
+                    let opt = document.createElement("option");
+                    opt.value = i.id; opt.text = i.texto;
+                    sel.appendChild(opt);
+                });
+            }
         }
 
         function voltar() {
             document.getElementById('formScreen').style.display = 'none';
             document.getElementById('selectionScreen').style.display = 'block';
+            document.getElementById('mensagem').innerText = "";
         }
 
         document.getElementById('formAgendamento').addEventListener('submit', function(e) {
@@ -139,15 +328,24 @@
             .then(r => r.json()).then(d => {
                 if(d.result === 'success'){
                     document.getElementById('mensagem').innerText = "✅ Sucesso! Abrindo WhatsApp...";
-                    const texto = `*Novo Agendamento!* %0A👤 ${dados.nome} %0A📅 ${document.getElementById("slotDisponivel").selectedOptions[0].text}`;
+                    document.getElementById('mensagem').style.color = "green";
+                    
+                    const horarioTexto = document.getElementById("slotDisponivel").selectedOptions[0].text;
+                    const texto = `*Novo Agendamento Confirmado!* %0A👤 Paciente: ${dados.nome} %0A🩺 Profissional: ${document.getElementById('tituloForm').innerText} %0A📅 Data: ${horarioTexto} %0A📍 Cidade: ${dados.cidade}`;
+                    
                     setTimeout(() => {
                         window.open(`https://wa.me/${ZAP}?text=${texto}`, '_blank');
                         location.reload();
                     }, 1500);
                 } else {
-                    alert(d.message);
+                    document.getElementById('mensagem').innerText = "❌ " + d.message;
+                    document.getElementById('mensagem').style.color = "red";
                     btn.disabled = false; btn.innerText = "TENTAR NOVAMENTE";
                 }
+            })
+            .catch(err => {
+                document.getElementById('mensagem').innerText = "Erro de conexão.";
+                btn.disabled = false; btn.innerText = "TENTAR NOVAMENTE";
             });
         });
     </script>
