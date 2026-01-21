@@ -21,10 +21,9 @@
         .nav-menu a:hover { color: var(--primary); }
 
         /* --- HERO SECTION --- */
-        /* Foto de fundo representando o seguimento (Oftalmologia) */
         .hero { 
             height: 100vh; 
-            background: linear-gradient(rgba(12,28,44,0.85), rgba(12,28,44,0.5)), url('https://i.im.ge/2026/01/21/GggKMa.Gemini-Generated-Image-hpm2kthpm2kthpm2-1.png'); 
+            background: linear-gradient(rgba(12,28,44,0.85), rgba(12,28,44,0.5)), url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=80'); 
             background-size: cover; background-position: center; 
             display: flex; align-items: center; padding: 0 8%; color: white; margin-top: 0;
         }
@@ -57,7 +56,6 @@
 
         /* --- AVALIAÇÕES --- */
         .review-card { background: var(--light-bg); padding: 30px; border-radius: 15px; font-style: italic; position: relative; }
-        .review-card::before { content: "\201C"; font-size: 4rem; position: absolute; top: -10px; left: 20px; color: var(--primary); opacity: 0.3; }
         .stars { color: #f1c40f; margin-bottom: 10px; }
 
         /* --- FALE CONOSCO (FOOTER) --- */
@@ -70,11 +68,14 @@
         .bg-instagram { background: #C13584; }
         .bg-facebook { background: #1877F2; }
 
-        /* --- MODAL --- */
+        /* --- MODAL DE AGENDAMENTO (NOVO FLUXO) --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-box { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; animation: popIn 0.3s ease; }
+        .modal-box { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; max-height: 90vh; overflow-y: auto; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #888; transition: 0.2s;}
         .close-modal:hover { color: var(--dark); }
+        
+        .step-container { display: none; animation: fadeIn 0.3s ease; }
+        .step-active { display: block; }
         
         /* Botões de Seleção no Modal */
         .prof-btn { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 2px solid #eee; border-radius: 12px; cursor: pointer; background: white; width: 100%; margin-bottom: 15px; text-align: left; transition: 0.3s; }
@@ -84,10 +85,11 @@
         input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
         .btn-submit { width: 100%; padding: 15px; background: var(--dark); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .btn-submit:hover { background: var(--primary); color: var(--dark); }
+        .btn-back { background: none; border: none; color: #666; cursor: pointer; margin-bottom: 10px; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
 
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
-            .nav-menu { display: none; } /* Simplificado para mobile */
+            .nav-menu { display: none; } 
             header { justify-content: center; }
             .hero { text-align: center; }
         }
@@ -114,7 +116,7 @@
             <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px;">
                 Cuidamos da saúde dos seus olhos com tecnologia de ponta e profissionais experientes. Agende sua consulta em segundos.
             </p>
-            <button class="btn-main" onclick="abrirModal()">AGENDAR CONSULTA</button>
+            <button class="btn-main" onclick="abrirModal()">AGENDAR NA MINHA CIDADE</button>
         </div>
     </section>
 
@@ -174,17 +176,17 @@
         </div>
         <div class="grid">
             <div class="review-card">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="stars">★★★★★</div>
                 <p>"O atendimento do Guilherme foi excelente. Acertei meu grau de primeira e os óculos ficaram perfeitos. Recomendo muito!"</p>
                 <br><strong>- Mariana Costa</strong>
             </div>
             <div class="review-card">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="stars">★★★★★</div>
                 <p>"Dr. Eduardo é muito atencioso e explicou tudo sobre meu tratamento. Me senti muito segura. Clínica impecável e equipamentos modernos."</p>
                 <br><strong>- Ricardo Alves</strong>
             </div>
             <div class="review-card">
-                <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <div class="stars">★★★★★</div>
                 <p>"Agendamento super rápido pelo site. Recebi a confirmação no WhatsApp na hora. Facilidade e competência nota 10."</p>
                 <br><strong>- Fernanda Lima</strong>
             </div>
@@ -217,35 +219,54 @@
         <div class="modal-box">
             <span class="close-modal" onclick="fecharModal()">&times;</span>
             
-            <div id="selectionScreen">
-                <h2 style="text-align:center; margin-bottom:10px; color:var(--dark);">Agendar Consulta</h2>
-                <p style="text-align:center; color:#666; margin-bottom:20px;">Escolha o tipo de atendimento:</p>
+            <div id="step1" class="step-container step-active">
+                <h2 style="text-align:center; color:var(--dark);">Onde você está?</h2>
+                <p style="text-align:center; color:#666; margin-bottom:20px;">Selecione ou digite sua cidade:</p>
                 
-                <div class="prof-btn" onclick="escolherProfissional('optometrista', 'Guilherme (Optometrista)')">
+                <input list="cidadesList" id="cidadeInput" placeholder="Ex: Curitiba">
+                <datalist id="cidadesList">
+                    <option value="Curitiba">
+                    <option value="Londrina">
+                    <option value="Maringá">
+                    <option value="Cascavel">
+                    <option value="Ponta Grossa">
+                    <option value="Foz do Iguaçu">
+                    <option value="São José dos Pinhais">
+                    <option value="Colombo">
+                </datalist>
+
+                <button class="btn-submit" onclick="irParaPasso2()">CONTINUAR</button>
+            </div>
+
+            <div id="step2" class="step-container">
+                <button class="btn-back" onclick="mudarPasso('step1')"><i class="fas fa-arrow-left"></i> Voltar</button>
+                <h2 style="text-align:center; margin-bottom:10px; color:var(--dark);">Qual atendimento?</h2>
+                <p style="text-align:center; color:#666; margin-bottom:20px;">Escolha o especialista:</p>
+                
+                <div class="prof-btn" onclick="irParaPasso3('Optometrista')">
                     <div>
                         <h4 style="margin-bottom:5px;">Optometrista</h4>
-                        <small style="color:#666;">Exame de vista (Guilherme)</small>
+                        <small style="color:#666;">Exame de vista (Refração)</small>
                     </div>
                     <div style="color:var(--primary); font-weight:bold; font-size:1.1rem;">R$ 120,00</div>
                 </div>
 
-                <div class="prof-btn" onclick="escolherProfissional('oftalmologista', 'Dr. Eduardo (Oftalmologista)')">
+                <div class="prof-btn" onclick="irParaPasso3('Oftalmologista')">
                     <div>
                         <h4 style="margin-bottom:5px;">Oftalmologista</h4>
-                        <small style="color:#666;">Consulta Médica (Dr. Eduardo)</small>
+                        <small style="color:#666;">Consulta Médica Completa</small>
                     </div>
                     <div style="color:var(--primary); font-weight:bold; font-size:1.1rem;">R$ 150,00</div>
                 </div>
             </div>
 
-            <div id="formScreen" style="display:none;">
-                <button onclick="voltar()" style="background:none; border:none; cursor:pointer; color:#666; margin-bottom:10px; display:flex; align-items:center; gap:5px;"><i class="fas fa-arrow-left"></i> Voltar</button>
+            <div id="step3" class="step-container">
+                <button class="btn-back" onclick="mudarPasso('step2')"><i class="fas fa-arrow-left"></i> Voltar</button>
                 <h3 id="tituloForm" style="text-align:center; color:var(--primary); margin-bottom:20px;"></h3>
                 
                 <form id="formAgendamento">
                     <input type="text" id="nome" placeholder="Nome Completo" required>
                     <input type="tel" id="telefone" placeholder="Telefone / WhatsApp" required>
-                    <input type="text" id="cidade" placeholder="Cidade" required>
                     
                     <label style="font-weight:600; font-size:0.9rem; margin-bottom:5px; display:block;">Horários Disponíveis:</label>
                     <select id="slotDisponivel" required><option>Carregando...</option></select>
@@ -261,53 +282,61 @@
         // ==========================================
         // COLE SUA URL DO GOOGLE APPS SCRIPT AQUI !!
         // ==========================================
-        const URL = "https://script.google.com/macros/s/AKfycbw5u1fbH0wNTmg9VhnaEC59OAN0pFG8l3wNQM_MAhRo12AI2JGdUshKbL7hxx3sz-Yn/exec"; 
+        const URL = "SUA_URL_DO_APPS_SCRIPT_AQUI"; 
         
-        const ZAP = "5544991837620";
-        let profissionalAtual = ""; 
+        const ZAP = "5541996509734";
+        let cidadeEscolhida = "";
+        let especialidadeEscolhida = "";
         let horariosCache = [];
 
         function abrirModal() {
             document.getElementById('modalAgendamento').style.display = 'flex';
-            voltar(); // Reseta para tela de seleção
-            // Busca horários no servidor ao abrir o modal
+            mudarPasso('step1'); // Reseta para tela inicial
             fetch(URL).then(r => r.json()).then(d => horariosCache = d); 
         }
         
         function fecharModal() { document.getElementById('modalAgendamento').style.display = 'none'; }
         
-        // Fecha ao clicar fora do modal
         window.onclick = function(e) {
             if(e.target == document.getElementById('modalAgendamento')) fecharModal();
         }
 
-        function escolherProfissional(tipo, nome) {
-            profissionalAtual = tipo;
-            document.getElementById('selectionScreen').style.display = 'none';
-            document.getElementById('formScreen').style.display = 'block';
-            document.getElementById('tituloForm').innerText = nome;
+        function mudarPasso(stepId) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('step-active'));
+            document.getElementById(stepId).classList.add('step-active');
+        }
+
+        function irParaPasso2() {
+            cidadeEscolhida = document.getElementById('cidadeInput').value;
+            if(!cidadeEscolhida) { alert("Por favor, digite sua cidade!"); return; }
+            mudarPasso('step2');
+        }
+
+        function irParaPasso3(tipo) {
+            especialidadeEscolhida = tipo;
+            mudarPasso('step3');
             
+            document.getElementById('tituloForm').innerText = `${tipo} em ${cidadeEscolhida}`;
             const sel = document.getElementById("slotDisponivel");
-            sel.innerHTML = '<option value="">Selecione...</option>';
+            sel.innerHTML = '<option value="">Selecione um profissional/horário...</option>';
             
-            // Filtra os horários baseados no tipo escolhido (optometrista ou oftalmologista)
-            const filtrados = horariosCache.filter(h => h.tipo === tipo);
+            // FILTRO INTELIGENTE: Cidade + Tipo
+            const filtrados = horariosCache.filter(h => 
+                h.cidade.toLowerCase() === cidadeEscolhida.toLowerCase() && 
+                h.profissional.includes(tipo)
+            );
             
             if(filtrados.length === 0) {
-                sel.innerHTML = '<option>Sem horários disponíveis</option>';
+                sel.innerHTML = '<option>Nenhum horário disponível nesta cidade</option>';
             } else {
                 filtrados.forEach(i => {
                     let opt = document.createElement("option");
-                    opt.value = i.id; opt.text = i.texto;
+                    opt.value = i.id; 
+                    // Exibe: "Guilherme - 20/01 às 14:00"
+                    opt.text = `${i.profissional.split(' - ')[0]} - ${i.texto}`; 
                     sel.appendChild(opt);
                 });
             }
-        }
-
-        function voltar() {
-            document.getElementById('formScreen').style.display = 'none';
-            document.getElementById('selectionScreen').style.display = 'block';
-            document.getElementById('mensagem').innerText = "";
         }
 
         document.getElementById('formAgendamento').addEventListener('submit', function(e) {
@@ -317,10 +346,9 @@
 
             const dados = {
                 action: "agendar",
-                tipo: profissionalAtual,
                 nome: document.getElementById('nome').value,
                 telefone: document.getElementById('telefone').value,
-                cidade: document.getElementById('cidade').value,
+                cidade: cidadeEscolhida,
                 slot_id: document.getElementById('slotDisponivel').value
             };
 
@@ -330,8 +358,8 @@
                     document.getElementById('mensagem').innerText = "✅ Sucesso! Abrindo WhatsApp...";
                     document.getElementById('mensagem').style.color = "green";
                     
-                    const horarioTexto = document.getElementById("slotDisponivel").selectedOptions[0].text;
-                    const texto = `*Novo Agendamento Confirmado!* %0A👤 Paciente: ${dados.nome} %0A🩺 Profissional: ${document.getElementById('tituloForm').innerText} %0A📅 Data: ${horarioTexto} %0A📍 Cidade: ${dados.cidade}`;
+                    const infoSlot = document.getElementById("slotDisponivel").selectedOptions[0].text;
+                    const texto = `*Novo Agendamento Confirmado!* %0A📍 Cidade: ${cidadeEscolhida} %0A👤 Paciente: ${dados.nome} %0A📅 Detalhes: ${infoSlot}`;
                     
                     setTimeout(() => {
                         window.open(`https://wa.me/${ZAP}?text=${texto}`, '_blank');
@@ -351,5 +379,3 @@
     </script>
 </body>
 </html>
-
-
