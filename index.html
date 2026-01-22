@@ -49,7 +49,6 @@
         /* --- PROFISSIONAIS --- */
         #profissionais { background-color: var(--light-bg); }
         .team-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .team-img { height: 250px; background-color: #ddd; background-size: cover; background-position: center; }
         .team-info { padding: 25px; }
         .team-role { color: var(--primary); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
         .team-bio { font-size: 0.95rem; color: #555; margin-top: 10px; }
@@ -119,7 +118,7 @@
             <p style="font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px;">
                 Cuidamos da saúde dos seus olhos com tecnologia de ponta e profissionais experientes. Agende sua consulta em segundos.
             </p>
-            <button class="btn-main" onclick="abrirModal()">AGENDAR NA MINHA CIDADE</button>
+            <button class="btn-main" onclick="abrirModal()">AGENDAR CONSULTA</button>
         </div>
     </section>
 
@@ -151,22 +150,18 @@
         </div>
         <div class="grid">
             <div class="team-card">
-                <div class="team-img" style="background-image: url('https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="team-info">
-                    <h3>Guilherme</h3>
+                       <div class="team-info">
                     <div class="team-role">Optometrista</div>
                     <p class="team-bio">
-                        Especialista em saúde visual primária. Guilherme dedica-se a proporcionar a melhor acuidade visual através de exames de refração precisos e adaptação de lentes de contato. Seu foco é garantir conforto visual e qualidade de vida para seus pacientes.
+                        Especialista em saúde visual primária. Dedicado a proporcionar a melhor acuidade visual através de exames de refração precisos e adaptação de lentes de contato. Seu foco é garantir conforto visual e qualidade de vida para seus pacientes.
                     </p>
                 </div>
             </div>
             <div class="team-card">
-                <div class="team-img" style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="team-info">
-                    <h3>Dr. Eduardo Sodré</h3>
+                    <div class="team-info">
                     <div class="team-role">Oftalmologista</div>
                     <p class="team-bio">
-                        Médico cirurgião com vasta experiência no diagnóstico e tratamento de patologias oculares complexas. Dr. Eduardo é referência em cirurgias de catarata, tratamento de glaucoma e retina. Seu atendimento une tecnologia de ponta e humanização.
+                        Médico cirurgião com vasta experiência no diagnóstico e tratamento de patologias oculares complexas. Referência em cirurgias de catarata, tratamento de glaucoma e retina. Seu atendimento une tecnologia de ponta e humanização.
                     </p>
                 </div>
             </div>
@@ -180,12 +175,12 @@
         <div class="grid">
             <div class="review-card">
                 <div class="stars">★★★★★</div>
-                <p>"O atendimento do Guilherme foi excelente. Acertei meu grau de primeira e os óculos ficaram perfeitos. Recomendo muito!"</p>
+                <p>"O atendimento foi excelente. Acertei meu grau de primeira e os óculos ficaram perfeitos. Recomendo muito!"</p>
                 <br><strong>- Mariana Costa</strong>
             </div>
             <div class="review-card">
                 <div class="stars">★★★★★</div>
-                <p>"Dr. Eduardo é muito atencioso e explicou tudo sobre meu tratamento. Me senti muito segura. Clínica impecável e equipamentos modernos."</p>
+                <p>"Equipe muito atenciosa, me explicou tudo sobre meu tratamento. Me senti muito segura. Clínica impecável e equipamentos modernos."</p>
                 <br><strong>- Ricardo Alves</strong>
             </div>
             <div class="review-card">
@@ -210,9 +205,6 @@
             <a href="https://www.instagram.com/consultorioolharys" target="_blank" class="btn-social bg-instagram">
                 <i class="fab fa-instagram"></i> Instagram
             </a>
-            <a href="https://facebook.com" target="_blank" class="btn-social bg-facebook">
-                <i class="fab fa-facebook-f"></i> Facebook
-            </a>
         </div>
         <br><br>
         <small>© 2026 Olharys Clínica de Olhos. Todos os direitos reservados.</small>
@@ -235,13 +227,12 @@
                     <option value="Marechal Candido Rondon">
                     <option value="Toledo">
                     <option value="Altonia">
-                    <option value="Cascavel">
                 </datalist>
 
                 <button class="btn-submit" onclick="irParaPasso2()">CONTINUAR</button>
                 
                 <div class="help-box">
-                    <small>Não encontrou sua cidade?</small><br>
+                    <small>Não encontrou sua cidade ou horario?</small><br>
                     <a href="https://wa.me/5544991837620?text=Olá, não encontrei minha cidade no site." target="_blank" class="btn-help"><i class="fab fa-whatsapp"></i> Falar com Atendente</a>
                 </div>
             </div>
@@ -393,3 +384,4 @@
     </script>
 </body>
 </html>
+
